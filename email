@@ -1,0 +1,34 @@
+#!/usr/bin/env python
+
+
+import os
+import argparse
+
+from functions import *
+
+
+#####################################
+# Command Line Utility
+#####################################
+
+if __name__ == "__main__":
+
+	parser = argparse.ArgumentParser(description='A command-line utility for working with Html Emails.')
+	parser.add_argument("-f", "--file", dest="f", help="Run the email script on an html file.")
+	parser.add_argument("-s", "--styles", dest="s", help="Move all of the styles inline for your email.")
+	
+	args = parser.parse_args()
+
+	if args.f:
+		soup = get_soup(args.f)
+		soup = insert_styles(soup)
+		soup = center_email(soup)
+		soup = remove_colspans(soup)
+		soup = strip_heights(soup)
+		soup = image_styles(soup)
+		output(args.f, soup)
+
+	elif args.s:
+		soup = get_soup(args.s)
+		inline_email(args.s, soup)
+
